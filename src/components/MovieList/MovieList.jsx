@@ -5,12 +5,12 @@ export default function MovieList({ movies }) {
   const location = useLocation();
   return (
     <>
-      <h2 className={css.title}>Tranding today</h2>
+      {/* <h2 className={css.title}>Tranding today</h2> */}
       <ul className={css.list}>
         {movies.map((movie) => (
           <li key={movie.id} className={css.listItem}>
             <Link to={`/movies/${movie.id}`} state={location}>
-              {movie.title}
+              {movie.title} ({movie.release_date.split("-")[0]})
             </Link>
           </li>
         ))}

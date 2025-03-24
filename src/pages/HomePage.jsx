@@ -28,6 +28,7 @@ export default function HomePage() {
     <div>
       {isLoading && <Loader />}
       {error && <ErrorMassage />}
+      <h2>Tranding today</h2>
       {movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );

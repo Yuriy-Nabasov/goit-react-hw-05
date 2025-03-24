@@ -43,7 +43,6 @@ export default function MoviesPage() {
   }, [debounceQuery]);
   return (
     <div>
-      {/* <h2>This is MoviesPage</h2> */}
       <input type="text" value={query} onChange={changeSearchText}></input>
       {isLoading && <Loader />}
       {error && <ErrorMassage />}

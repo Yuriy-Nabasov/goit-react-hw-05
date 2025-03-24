@@ -4,6 +4,10 @@
   gap: 1rem;
 }
 
+.title {
+  color: brown;
+}
+
 .container {
   display: flex;
   gap: 1rem;
@@ -34,6 +38,7 @@
   margin: 2px 0;
   font-size: 0.9rem;
   align-items: baseline;
+  text-align: left;
 }
 
 .sectionTitle {

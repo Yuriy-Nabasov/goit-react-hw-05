@@ -30,7 +30,11 @@ export default function MovieReviews() {
     <div>
       {isLoading && <Loader />}
       {error && <ErrorMassage />}
-      {!reviews.length && <h3>We don't have any reviews for this movie.</h3>}
+      {!reviews.length && (
+        <h3 className={css.title}>
+          Sorry, we don't have any reviews for this movie.
+        </h3>
+      )}
       {reviews.length > 0 &&
         reviews.map((review) => (
           <div key={review.id} className={css.info}>

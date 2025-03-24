@@ -35,6 +35,11 @@ export default function MovieCast() {
       {isLoading && <Loader />}
       {error && <ErrorMassage />}
 
+      {!cast.length && (
+        <h3 className={css.title}>
+          Sorry, we don't have any cast information for this movie.
+        </h3>
+      )}
       {cast.length > 0 &&
         cast.map((actor) => (
           <div key={actor.id} className={css.container}>

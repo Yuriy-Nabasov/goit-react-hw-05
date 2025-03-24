@@ -1,10 +1,11 @@
 import { Suspense, useEffect, useState } from "react";
-import { useParams, Link, NavLink, Outlet, useLocation } from "react-router";
+import { useParams, Link, Outlet, useLocation } from "react-router";
 import { fetchMoviesDetails } from "../articleService";
 import MovieInfo from "../components/MovieInfo/MovieInfo";
 import { useRef } from "react";
 import Loader from "../components/Loader/Loader";
 import ErrorMassage from "../components/ErrorMessage/ErrorMessage";
+import AdditionalInfo from "../components/AdditionalInfo/AdditionalInfo";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
@@ -38,15 +39,7 @@ export default function MovieDetailsPage() {
       {isLoading && <Loader />}
       {error && <ErrorMassage />}
       {movie && <MovieInfo movie={movie} />}
-      <h3>Additional information</h3>
-      <ul>
-        <li>
-          <NavLink to="cast">Cast</NavLink>
-        </li>
-        <li>
-          <NavLink to="reviews">Reviews</NavLink>
-        </li>
-      </ul>
+      <AdditionalInfo />
       <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>

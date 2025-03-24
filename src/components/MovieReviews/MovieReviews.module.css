@@ -5,3 +5,7 @@
   text-align-last: left;
   gap: 1rem;
 }
+
+.title {
+  color: brown;
+}
