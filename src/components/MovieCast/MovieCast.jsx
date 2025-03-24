@@ -4,6 +4,7 @@ import { fetchMoviesCredits } from "../../articleService";
 import Loader from "../Loader/Loader";
 import ErrorMassage from "../ErrorMessage/ErrorMessage";
 import css from "./MovieCast.module.css";
+import ActorInfo from "../ActorInfo/ActorInfo";
 
 export default function MovieCast() {
   const { movieId } = useParams();
@@ -58,6 +59,7 @@ export default function MovieCast() {
                 Character: <br />
                 <strong>{actor.character}</strong>
               </p>
+              <ActorInfo actorName={actor.name} />
             </div>
           </div>
         ))}
