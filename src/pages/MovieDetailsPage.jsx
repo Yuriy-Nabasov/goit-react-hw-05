@@ -1,13 +1,19 @@
-import { useEffect, useState } from "react";
-import { useParams, NavLink, Outlet } from "react-router";
+import { Suspense, useEffect, useState } from "react";
+import { useParams, Link, NavLink, Outlet, useLocation } from "react-router";
 import { fetchMoviesDetails } from "../articleService";
 import MovieInfo from "../components/MovieInfo/MovieInfo";
+import { useRef } from "react";
+import Loader from "../components/Loader/Loader";
+import ErrorMassage from "../components/ErrorMessage/ErrorMessage";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  const location = useLocation();
+  const backLinkRef = useRef(location.state);
 
   useEffect(() => {
     async function getMovie() {
@@ -25,13 +31,13 @@ export default function MovieDetailsPage() {
     }
     getMovie();
   }, [movieId]);
-  // console.log(params);
+
   return (
     <div>
-      {isLoading && <b>Loading info...</b>}
-      {error && <b>Whoops there was an error, plz reload the page...</b>}
+      <Link to={backLinkRef.current}>Go back</Link>
+      {isLoading && <Loader />}
+      {error && <ErrorMassage />}
       {movie && <MovieInfo movie={movie} />}
-      {/* This is MovieDetailsPage - {movieId} */}
       <h3>Additional information</h3>
       <ul>
         <li>
@@ -41,7 +47,9 @@ export default function MovieDetailsPage() {
           <NavLink to="reviews">Reviews</NavLink>
         </li>
       </ul>
-      <Outlet />
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchTrandingMovies } from "../articleService";
 import MovieList from "../components/MovieList/MovieList";
+import Loader from "../components/Loader/Loader";
+import ErrorMassage from "../components/ErrorMessage/ErrorMessage";
 
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
@@ -15,7 +17,6 @@ export default function HomePage() {
         const data = await fetchTrandingMovies();
         setMovies(data);
       } catch {
-        // console.log(`error!`);
         setError(true);
       } finally {
         setIsLoading(false);
@@ -25,9 +26,8 @@ export default function HomePage() {
   }, []);
   return (
     <div>
-      {/* <h2>Tranding today</h2> */}
-      {isLoading && <b>Loading info...</b>}
-      {error && <b>Whoops there was an error, plz reload the page...</b>}
+      {isLoading && <Loader />}
+      {error && <ErrorMassage />}
       {movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );

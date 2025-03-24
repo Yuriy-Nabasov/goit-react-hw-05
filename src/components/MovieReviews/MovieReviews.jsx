@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { fetchMoviesReviews } from "../../articleService";
+import Loader from "../Loader/Loader";
+import ErrorMassage from "../ErrorMessage/ErrorMessage";
 import css from "./MovieReviews.module.css";
 
 export default function MovieReviews() {
@@ -16,7 +18,6 @@ export default function MovieReviews() {
         setError(false);
         const data = await fetchMoviesReviews(movieId);
         setReviews(data);
-        // console.log(data);
       } catch {
         setError(true);
       } finally {
@@ -27,8 +28,8 @@ export default function MovieReviews() {
   }, [movieId]);
   return (
     <div>
-      {isLoading && <b>Loading info...</b>}
-      {error && <b>Whoops there was an error, plz reload the page...</b>}
+      {isLoading && <Loader />}
+      {error && <ErrorMassage />}
       {!reviews.length && <h3>We don't have any reviews for this movie.</h3>}
       {reviews.length > 0 &&
         reviews.map((review) => (

@@ -1,9 +1,7 @@
 .info {
   display: flex;
   flex-direction: column;
-  /* align-items: baseline; */
-  text-align: justify; /* Розтягує текст по ширині контейнера */
-  text-align-last: left; /* Вирівнює останній рядок по лівому краю */
+  text-align: justify;
+  text-align-last: left;
   gap: 1rem;
-  /* width: 250px; */
 }

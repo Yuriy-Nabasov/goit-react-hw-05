@@ -1,17 +1,36 @@
 import { useEffect, useState } from "react";
 import { fetchMovies } from "../articleService";
+import { useSearchParams } from "react-router";
+import { useDebounce } from "use-debounce";
+import MovieList from "../components/MovieList/MovieList";
+import Loader from "../components/Loader/Loader";
+import ErrorMassage from "../components/ErrorMessage/ErrorMessage";
 
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const query = searchParams.get(`query`) ?? ``;
+  const [debounceQuery] = useDebounce(query, 1000);
+
+  const changeSearchText = (event) => {
+    const nextParams = new URLSearchParams(searchParams);
+    if (event.target.value !== "") {
+      nextParams.set(`query`, event.target.value);
+    } else {
+      nextParams.delete(`query`);
+    }
+    setSearchParams(nextParams);
+  };
 
   useEffect(() => {
     async function getMovies() {
       try {
         setIsLoading(true);
         setError(false);
-        const data = await fetchMovies();
+        const data = await fetchMovies(debounceQuery);
         setMovies(data);
       } catch {
         console.log(`error!`);
@@ -21,15 +40,14 @@ export default function MoviesPage() {
       }
     }
     getMovies();
-  }, []);
-
+  }, [debounceQuery]);
   return (
     <div>
-      <h2>This is MoviesPage</h2>
-      {isLoading && <b>Loading info...</b>}
-      {error && <b>Whoops there was an error, plz reload the page...</b>}
-      {/* {movies.length > 0 && <UserList movies={movies} />} */}
-      {/* {movies.length > 0 && <p>Movies</p>} */}
+      {/* <h2>This is MoviesPage</h2> */}
+      <input type="text" value={query} onChange={changeSearchText}></input>
+      {isLoading && <Loader />}
+      {error && <ErrorMassage />}
+      {movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );
 }

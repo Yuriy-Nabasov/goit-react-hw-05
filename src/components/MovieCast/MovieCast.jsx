@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { fetchMoviesCredits } from "../../articleService";
+import Loader from "../Loader/Loader";
+import ErrorMassage from "../ErrorMessage/ErrorMessage";
 import css from "./MovieCast.module.css";
 
 export default function MovieCast() {
@@ -10,6 +12,9 @@ export default function MovieCast() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const defaultImg =
+    "https://dl-media.viber.com/10/share/2/long/vibes/icon/image/0x0/95e0/5688fdffb84ff8bed4240bcf3ec5ac81ce591d9fa9558a3a968c630eaba195e0.jpg";
+
   useEffect(() => {
     async function getCast() {
       try {
@@ -17,7 +22,6 @@ export default function MovieCast() {
         setError(false);
         const data = await fetchMoviesCredits(movieId);
         setCast(data);
-        // console.log(data);
       } catch {
         setError(true);
       } finally {
@@ -28,21 +32,27 @@ export default function MovieCast() {
   }, [movieId]);
   return (
     <div className={css.wrapper}>
-      {/* <h3>CAST</h3> */}
-      {isLoading && <b>Loading info...</b>}
-      {error && <b>Whoops there was an error, plz reload the page...</b>}
+      {isLoading && <Loader />}
+      {error && <ErrorMassage />}
 
       {cast.length > 0 &&
         cast.map((actor) => (
           <div key={actor.id} className={css.container}>
             <img
-              src={`${photo}${actor.profile_path}`}
+              src={
+                actor.profile_path
+                  ? `${photo}${actor.profile_path}`
+                  : defaultImg
+              }
               alt={actor.name}
               className={css.poster}
             />
             <div className={css.info}>
               <h3 className={css.name}>{actor.name}</h3>
-              <p className={css.detail}>Character: {actor.character}</p>
+              <p className={css.detail}>
+                Character: <br />
+                <strong>{actor.character}</strong>
+              </p>
             </div>
           </div>
         ))}
